@@ -6,19 +6,28 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import {Accordion, AccordionDetails, AccordionSummary, ListSubheader} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {useEffect, useState} from "react";
+import "./Rebar.css";
 
 const drawerWidth = 240;
 
 export default function RebarDocs(props) {
+    const [currentPage, switchPage] = useState(<></>);
+    const [activePage, setActivePage] = useState(localStorage.getItem("REBARDOC.SelectedPage"));
+
+    let pages = {};
+
+    useEffect(() => {
+        let Page = pages[activePage];
+        switchPage(<Page />);
+        localStorage.setItem("REBARDOC.SelectedPage", activePage);
+    }, [activePage])
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -55,13 +64,15 @@ export default function RebarDocs(props) {
                                             {majorCategory.items.map((minorCategory) => {
                                                 return (
                                                     <>
-                                                        <ListSubheader sx={{ backgroundColor: "#333" }}>{minorCategory.title}</ListSubheader>
+                                                        <ListSubheader sx={{ marginTop: "10px", backgroundColor: "#333", color: "#977" }}>{minorCategory.title}</ListSubheader>
                                                         {
                                                             minorCategory.items.map((item) => {
-                                                                console.log(majorCategory.title + "." + minorCategory.title + "." + item.title);
+                                                                const key = majorCategory.title + "." + minorCategory.title + "." + item.title
+                                                                pages[key] = item.Element;
+
                                                                 return (
-                                                                    <ListItem key={majorCategory.title + "." + minorCategory.title + "." + item.title} disablePadding>
-                                                                        <ListItemButton>
+                                                                    <ListItem key={key} disablePadding>
+                                                                        <ListItemButton selected={activePage === key} onClick={() => setActivePage(key)}>
                                                                             <ListItemText primary={item.title} />
                                                                         </ListItemButton>
                                                                     </ListItem>
@@ -79,35 +90,9 @@ export default function RebarDocs(props) {
                     }
                 </Box>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main" sx={{ flexGrow: 1, p: 4, maxWidth: 1000 }}>
                 <Toolbar />
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                    imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-                    Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-                    Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-                    nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-                    leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-                    feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-                    consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                    sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-                    eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-                    neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-                    tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-                    sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-                    tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-                    gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-                    et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-                    tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-                    eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-                    posuere sollicitudin aliquam ultrices sagittis orci a.
-                </Typography>
+                {currentPage}
             </Box>
         </Box>
     );

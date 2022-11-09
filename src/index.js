@@ -4,11 +4,17 @@ import './index.css';
 import {createTheme, ThemeProvider} from "@mui/material";
 import RebarDocs from "./pages/Rebar";
 
+import DOC_TUTORIALS from "./pages/docs/tutorials/doc";
+
+const DOCS = [
+    DOC_TUTORIALS
+];
+
 const theme = createTheme({
     palette: {
         type: 'dark',
         primary: {
-            main: '#8e0507',
+            main: '#8e0507'
         },
         secondary: {
             main: '#7b7b7b',
@@ -31,6 +37,13 @@ const theme = createTheme({
                 }
             }
         },
+        MuiListItemButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '100px'
+                }
+            }
+        },
         MuiListSubheader: {
             styleOverrides: {
                 root: {
@@ -40,74 +53,6 @@ const theme = createTheme({
         }
     }
 });
-
-const DOCS = [
-    {
-        title: "Tutorials",
-        expanded: true,
-        items: [
-            {
-                title: "Hello",
-                items: [
-                    {
-                        title: "std::exception",
-                    },
-                    {
-                        title: "rebar::exception"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        title: "Implementing Rebar",
-        items: [
-            {
-                title: "Hello",
-                items: [
-                    {
-                        title: "std::exception",
-                    },
-                    {
-                        title: "rebar::exception"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        title: "Writing Rebar",
-        items: [
-            {
-                title: "Goodbye",
-                items: [
-                    {
-                        title: "std::exception",
-                    },
-                    {
-                        title: "rebar::exception"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        title: "Exploring Rebar",
-        items: [
-            {
-                title: "Goodbye",
-                items: [
-                    {
-                        title: "std::exception",
-                    },
-                    {
-                        title: "rebar::exception"
-                    }
-                ]
-            }
-        ]
-    }
-];
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
