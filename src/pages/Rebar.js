@@ -22,8 +22,12 @@ export default function RebarDocs(props) {
 
     let pages = {};
 
+    function Empty() {
+
+    }
+
     useEffect(() => {
-        let Page = pages[activePage];
+        let Page = pages[activePage] || Empty;
         switchPage(<Page />);
         localStorage.setItem("REBARDOC.SelectedPage", activePage);
     }, [activePage])
